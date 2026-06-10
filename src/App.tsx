@@ -74,6 +74,11 @@ export default function App() {
   const [ticketCount, setTicketCount] = useState<number>(1);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [ticketConfirmedCode, setTicketConfirmedCode] = useState<string>('');
+  
+  // Interactive Custom Calendar and Seat Select warning states
+  const [calendarYear, setCalendarYear] = useState<number>(2026);
+  const [calendarMonth, setCalendarMonth] = useState<number>(6);
+  const [seatWarning, setSeatWarning] = useState<string>('');
 
   // Accordion lists states
   const [expandedNews, setExpandedNews] = useState<number | null>(null);
@@ -94,7 +99,7 @@ export default function App() {
       title: '네이처 오브 포겟팅 (The Nature of Forgetting)',
       period: '2026.09 (예정)',
       venue: '세종문화회관 S씨어터',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLtsM1cVKLOD27O7CoumpGneFb2dA9yWQLiuNQwLE5oC3cpMwIgyrufhRVbsAYc7UZ6tFQNcM_H4L902n8j7GKOWbhAp2sIFUED61zIRHc6YECHCY33AvMV8GQiA8xmtW40n1Tf5RA8Z-wJmCTXzFxdACagzUbzWBK7ch9PbPJS5yIZ7fVPku6wfuHPkx6USZ3wIolEy2YOeJHsAhrOxjoG0pbtdNh6RDwm98cKK05Ky-ekB2GfozKBfVRI',
+      image: 'https://lh3.googleusercontent.com/aida/AP1WRLtsM1cVKLOD27O7CoumpGneFb2dA9yWQLiuNQwLE5oC3cpMwIgyrufhRVbsAYc7UZ6tFQNcM_H4L902n8j7GKOWbhAp2sIFUED61zIRHc6YECHCY33AvMV8GQiA8xmtW40n1Tf5RA8Z-wJmCTXzFxdACagzUbzWBK7ch9PbPJS5yIZ7fVPku6wfuHPkx6USZ3wIolEy2YOeJHsAhrOxjoG0pbtdNh6RDwm98cKK05Ky-ekB2GfozKBfVRI=s0',
       badge: 'COMING SOON',
       badgeColor: 'bg-brand-orange',
       bannerDesc: '세종문화회관 S씨어터에서 만나는 감동적인 무대. 기억의 조각을 맞추는 특별한 여정.',
@@ -234,23 +239,68 @@ export default function App() {
   const handleOpenBooking = (play: PlayItem) => {
     setBookingPlay(play);
     setBookingStep(1);
-    // Auto-prepopulate date
-    setBookingDate(play.id === 'nature_of_forgetting' ? '2026-09-12' : '2026-06-15');
+    
+    // Set appropriate calendar month/year based on production period
+    if (play.id === 'nature_of_forgetting') {
+      setCalendarYear(2026);
+      setCalendarMonth(9);
+      setBookingDate('2026-09-12');
+    } else if (play.id === 'mouthpiece') {
+      setCalendarYear(2026);
+      setCalendarMonth(6);
+      setBookingDate('2026-06-15');
+    } else { // lungs
+      setCalendarYear(2026);
+      setCalendarMonth(6);
+      setBookingDate('2026-06-16');
+    }
+    
     setBookingTime('15:00');
     setTicketCount(1);
-    setSelectedSeats([]);
+    setSelectedSeats([]); // Start clean without pre-selected seats
+    setSeatWarning('');
   };
 
   const handleNextBookingStep = () => {
     if (bookingStep === 1) {
       setBookingStep(2);
-      // Auto-assign random seats for simplicity
-      setSelectedSeats(['A열 12번', 'A열 13번'].slice(0, ticketCount));
     } else if (bookingStep === 2) {
       // Confirmed ticket
       const randomCode = 'BP' + Math.floor(Math.random() * 900000 + 100000);
       setTicketConfirmedCode(randomCode);
       setBookingStep(3);
+    }
+  };
+
+  const isSoldOut = (row: string, colNum: number) => {
+    // Elegant static layout of already sold-out seats
+    const soldOutList = [
+      'A-1', 'A-2', 'A-9', 'A-10',
+      'B-5', 'B-6',
+      'C-3', 'C-4', 'C-7', 'C-8',
+      'D-1', 'D-10', 'E-5', 'E-6'
+    ];
+    return soldOutList.includes(`${row}-${colNum}`);
+  };
+
+  const handleSeatClick = (row: string, colNum: number) => {
+    const seatName = `${row}열 ${colNum}번`;
+    setSeatWarning('');
+    
+    if (selectedSeats.includes(seatName)) {
+      // Toggle off
+      const updated = selectedSeats.filter(s => s !== seatName);
+      setSelectedSeats(updated);
+      setTicketCount(updated.length > 0 ? updated.length : 1);
+    } else {
+      // Toggle on
+      if (selectedSeats.length >= 4) {
+        setSeatWarning('※ 예매 매수는 1인 최대 4매까지 제한되어 다른 좌석을 선택할 수 없습니다.');
+        return;
+      }
+      const updated = [...selectedSeats, seatName];
+      setSelectedSeats(updated);
+      setTicketCount(updated.length);
     }
   };
 
@@ -442,46 +492,77 @@ export default function App() {
         {activeTab === 'home' && (
           <>
             {/* Hero Section */}
-            <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden flex flex-col justify-end p-4 md:p-6 pb-8">
-              <img 
-                alt="네이처 오브 포겟팅 배너" 
-                className="absolute inset-0 w-full h-full object-cover z-0" 
-                src={currentPlay.image}
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/40 to-transparent z-10" />
-              
-              <div className="relative z-20 text-white flex flex-col items-start gap-4 max-w-7xl mx-auto w-full">
-                <span className="inline-block px-3 py-1 bg-brand-orange font-mono text-[12px] text-white rounded-full uppercase tracking-wider font-semibold">
-                  {currentPlay.badge}
-                </span>
+            {currentPlay.id === 'nature_of_forgetting' ? (
+              <section className="relative w-full h-[55vh] md:h-[75vh] bg-[#FAF6ED] overflow-hidden flex flex-col justify-end">
+                <img 
+                  alt="네이처 오브 포겟팅 배너" 
+                  className="absolute inset-x-0 top-0 w-full h-full object-contain object-center z-0" 
+                  src={currentPlay.image}
+                  referrerPolicy="no-referrer"
+                />
                 
-                <h1 className="font-headline text-3xl md:text-5xl text-white font-extrabold leading-tight drop-shadow-md">
-                  {currentPlay.title.split(' (')[0]}
-                </h1>
-                
-                <p className="font-sans text-sm md:text-base text-[#ffe2da] max-w-xl drop-shadow leading-relaxed">
-                  {currentPlay.bannerDesc}
-                </p>
-                
-                <div className="flex gap-4 mt-4 w-full md:w-auto">
-                  <button 
-                    onClick={() => handleOpenBooking(currentPlay)}
-                    className="flex-1 md:flex-none bg-brand-primary text-white px-6 py-3 rounded-lg font-sans text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-primary/20"
-                  >
-                    <span>예매하기</span>
-                    <Ticket size={16} />
-                  </button>
-                  <button 
-                    onClick={() => setSelectedPlay(currentPlay)}
-                    className="flex-1 md:flex-none border border-white text-white px-6 py-3 rounded-lg font-sans text-sm font-semibold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 backdrop-blur-sm cursor-pointer"
-                  >
-                    <span>상세보기</span>
-                    <Info size={16} />
-                  </button>
+                {/* Clean, elegant floating action container */}
+                <div className="relative z-20 w-full max-w-7xl mx-auto px-4 md:px-12 pb-6 md:pb-8 flex justify-end">
+                  <div className="flex gap-3 bg-stone-900/10 backdrop-blur-md p-2 rounded-xl border border-stone-950/5 w-full md:w-auto md:shadow-lg shadow-stone-950/5">
+                    <button 
+                      onClick={() => handleOpenBooking(currentPlay)}
+                      className="flex-1 md:flex-none bg-brand-primary text-white hover:bg-brand-primary/95 px-6 py-2.5 rounded-lg font-sans text-sm font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-primary/20"
+                    >
+                      <span>예매하기</span>
+                      <Ticket size={16} />
+                    </button>
+                    <button 
+                      onClick={() => setSelectedPlay(currentPlay)}
+                      className="flex-1 md:flex-none bg-white/70 hover:bg-white text-stone-900 px-6 py-2.5 rounded-lg font-sans text-sm font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer border border-stone-300"
+                    >
+                      <span>상세보기</span>
+                      <Info size={16} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            ) : (
+              <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden flex flex-col justify-end p-4 md:p-12 pb-8">
+                <img 
+                  alt="히어로 배너" 
+                  className="absolute inset-0 w-full h-full object-cover z-0" 
+                  src={currentPlay.image}
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/40 to-transparent z-10" />
+                
+                <div className="relative z-20 text-white flex flex-col items-start gap-4 max-w-7xl mx-auto w-full">
+                  <span className="inline-block px-3 py-1 bg-brand-orange font-mono text-[12px] text-white rounded-full uppercase tracking-wider font-semibold">
+                    {currentPlay.badge}
+                  </span>
+                  
+                  <h1 className="font-headline text-3xl md:text-5xl text-white font-extrabold leading-tight drop-shadow-md">
+                    {currentPlay.title.split(' (')[0]}
+                  </h1>
+                  
+                  <p className="font-sans text-sm md:text-base text-[#ffe2da] max-w-xl drop-shadow leading-relaxed">
+                    {currentPlay.bannerDesc || currentPlay.synopsis}
+                  </p>
+                  
+                  <div className="flex gap-4 mt-4 w-full md:w-auto">
+                    <button 
+                      onClick={() => handleOpenBooking(currentPlay)}
+                      className="flex-1 md:flex-none bg-brand-primary text-white px-6 py-3 rounded-lg font-sans text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-primary/20"
+                    >
+                      <span>예매하기</span>
+                      <Ticket size={16} />
+                    </button>
+                    <button 
+                      onClick={() => setSelectedPlay(currentPlay)}
+                      className="flex-1 md:flex-none border border-white text-white px-6 py-3 rounded-lg font-sans text-sm font-semibold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 backdrop-blur-sm cursor-pointer"
+                    >
+                      <span>상세보기</span>
+                      <Info size={16} />
+                    </button>
+                  </div>
+                </div>
+              </section>
+            )}
 
             {/* NOW PLAYING Section */}
             <section className="py-12 px-4 max-w-7xl mx-auto">
@@ -1223,38 +1304,127 @@ export default function App() {
               {bookingStep === 1 && (
                 <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-xs text-gray-400 font-bold block mb-2">1단계: 관람 희망 날짜 선택</label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {[
-                        { dateStr: '2026-06-15', label: '6/15 (월)' },
-                        { dateStr: '2026-06-16', label: '6/16 (화)' },
-                        { dateStr: '2026-06-17', label: '6/17 (수)' },
-                        { dateStr: '2026-06-18', label: '6/18 (목)' },
-                        { dateStr: '2026-06-19', label: '6/19 (금)' },
-                        { dateStr: '2026-06-20', label: '6/20 (토)' },
-                        { dateStr: '2026-06-21', label: '6/21 (일)' }
-                      ].map(d => (
-                        <button
-                          key={d.dateStr}
-                          onClick={() => setBookingDate(d.dateStr)}
-                          className={`py-3 px-1.5 text-xs font-semibold rounded-lg border text-center transition-all cursor-pointer ${bookingDate === d.dateStr ? 'bg-brand-orange text-white border-brand-orange' : 'bg-white text-gray-700 border-gray-100 hover:border-gray-300'}`}
+                    <label className="text-xs text-gray-400 font-bold block mb-2">1단계: 관람 희망 날짜 선택 (달력 형태)</label>
+                    
+                    <div className="bg-gray-50 border border-gray-150 rounded-xl p-4">
+                      {/* Calendar Navigation Head */}
+                      <div className="flex items-center justify-between mb-4">
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            if (calendarMonth === 1) {
+                              setCalendarMonth(12);
+                              setCalendarYear(prev => prev - 1);
+                            } else {
+                              setCalendarMonth(prev => prev - 1);
+                            }
+                          }}
+                          className="px-2.5 py-1.5 bg-white border border-gray-200 rounded-md hover:bg-gray-100 text-[11px] font-bold transition-colors cursor-pointer text-gray-600"
                         >
-                          {d.label}
+                          &lt; 이전 달
                         </button>
-                      ))}
+                        <span className="font-headline font-bold text-sm text-gray-800">
+                          {calendarYear}년 {calendarMonth}월
+                        </span>
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            if (calendarMonth === 12) {
+                              setCalendarMonth(1);
+                              setCalendarYear(prev => prev + 1);
+                            } else {
+                              setCalendarMonth(prev => prev + 1);
+                            }
+                          }}
+                          className="px-2.5 py-1.5 bg-white border border-gray-200 rounded-md hover:bg-gray-100 text-[11px] font-bold transition-colors cursor-pointer text-gray-600"
+                        >
+                          다음 달 &gt;
+                        </button>
+                      </div>
+
+                      {/* Weekday Labels */}
+                      <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 border-b border-gray-100 pb-1">
+                        <span className="text-red-500">일</span>
+                        <span>월</span>
+                        <span>화</span>
+                        <span>수</span>
+                        <span>목</span>
+                        <span>금</span>
+                        <span className="text-blue-500">토</span>
+                      </div>
+
+                      {/* Monthly Grid */}
+                      <div className="grid grid-cols-7 gap-1">
+                        {/* Spacing empty blocks */}
+                        {Array.from({ length: new Date(calendarYear, calendarMonth - 1, 1).getDay() }).map((_, idx) => (
+                          <div key={`empty-${idx}`} className="h-9" />
+                        ))}
+
+                        {/* Valid days */}
+                        {Array.from({ length: new Date(calendarYear, calendarMonth, 0).getDate() }).map((_, idx) => {
+                          const dayNum = idx + 1;
+                          const dateString = `${calendarYear}-${String(calendarMonth).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+                          const isSelected = bookingDate === dateString;
+                          
+                          // Determine if the day is in official theatrical runs
+                          let isPlayPeriod = false;
+                          if (bookingPlay.id === 'nature_of_forgetting') {
+                            isPlayPeriod = calendarYear === 2026 && calendarMonth === 9;
+                          } else if (bookingPlay.id === 'mouthpiece') {
+                            isPlayPeriod = calendarYear === 2026 && (
+                              (calendarMonth === 4 && dayNum >= 4) ||
+                              calendarMonth === 5 ||
+                              (calendarMonth === 6 && dayNum <= 21)
+                            );
+                          } else if (bookingPlay.id === 'lungs') {
+                            isPlayPeriod = calendarYear === 2026 && (
+                              (calendarMonth === 5 && dayNum >= 23) ||
+                              calendarMonth === 6 ||
+                              calendarMonth === 7 ||
+                              (calendarMonth === 8 && dayNum <= 2)
+                            );
+                          }
+
+                          return (
+                            <button
+                              key={`day-${dayNum}`}
+                              type="button"
+                              onClick={() => setBookingDate(dateString)}
+                              className={`h-9 text-xs font-semibold rounded-lg flex flex-col items-center justify-center transition-all relative cursor-pointer
+                                ${isSelected 
+                                  ? 'bg-brand-orange text-white ring-2 ring-brand-orange/40 font-bold' 
+                                  : isPlayPeriod
+                                    ? 'bg-brand-primary/5 text-brand-primary hover:bg-brand-primary/10 hover:text-brand-primary font-bold' 
+                                    : 'text-gray-300 hover:bg-gray-50'
+                                }
+                              `}
+                            >
+                              <span>{dayNum}</span>
+                              {isPlayPeriod && !isSelected && (
+                                <span className="absolute bottom-1 w-1 h-1 bg-brand-primary rounded-full animate-pulse" />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
+
+                    <p className="text-[11px] text-brand-primary mt-2 font-medium flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-primary inline-block"></span>
+                      붉은 점 표시는 《{bookingPlay.title.split(' (')[0]}》 공식 상영 일정입니다.
+                    </p>
                   </div>
 
                   <div>
                     <label className="text-xs text-gray-400 font-bold block mb-2">2단계: 회차 시간 선택</label>
                     <div className="flex gap-2">
-                      {['15:00 (오후 3시)', '19:30 (오후 7시 30시)'].map(time => {
+                      {['15:00 (오후 3시)', '19:30 (오후 7시 30분)'].map(time => {
                         const parsedTime = time.split(' (')[0];
                         return (
                           <button
                             key={time}
                             onClick={() => setBookingTime(parsedTime)}
-                            className={`flex-1 py-3 text-xs font-semibold rounded-lg border text-center transition-all cursor-pointer ${bookingTime === parsedTime ? 'bg-brand-orange text-white border-brand-orange' : 'bg-white text-gray-700 border-gray-100 hover:border-gray-300'}`}
+                            className={`flex-1 py-3 text-xs font-semibold rounded-lg border text-center transition-all cursor-pointer ${bookingTime === parsedTime ? 'bg-brand-orange text-white border-brand-orange font-bold shadow-sm' : 'bg-white text-gray-700 border-gray-150 hover:border-gray-300'}`}
                           >
                             {time}
                           </button>
@@ -1263,7 +1433,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className="mt-6 flex gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                  <div className="mt-4 flex gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
                     <MapPin className="text-brand-orange flex-shrink-0" size={18} />
                     <div>
                       <h4 className="text-xs text-gray-400 block">선택 극장 정보</h4>
@@ -1274,7 +1444,7 @@ export default function App() {
                   <button
                     onClick={handleNextBookingStep}
                     disabled={!bookingDate || !bookingTime}
-                    className="w-full mt-6 bg-brand-primary text-white py-4 rounded-xl font-bold hover:opacity-95 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed text-center"
+                    className="w-full mt-4 bg-brand-primary text-white py-4 rounded-xl font-bold hover:opacity-95 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed text-center cursor-pointer shadow-md shadow-brand-primary/10"
                   >
                     다음 단계 (좌석 선택)
                   </button>
@@ -1285,61 +1455,125 @@ export default function App() {
               {bookingStep === 2 && (
                 <div className="flex flex-col gap-4">
                   <div>
-                    <label className="text-xs text-gray-450 font-bold block mb-2">티켓 예매 매수 선택</label>
-                    <div className="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg border border-gray-150">
-                      <span className="text-sm font-bold text-gray-800">일반 티켓 (전석 균일)</span>
-                      <div className="flex items-center gap-3">
-                        <button 
-                          onClick={() => setTicketCount(Math.max(1, ticketCount - 1))}
-                          className="w-8 h-8 rounded-full bg-white font-bold text-[#5c4037] border border-gray-200 flex items-center justify-center hover:bg-gray-100"
-                        >
-                          -
-                        </button>
-                        <span className="font-bold text-base text-gray-900">{ticketCount}</span>
-                        <button 
-                          onClick={() => setTicketCount(Math.min(4, ticketCount + 1))}
-                          className="w-8 h-8 rounded-full bg-white font-bold text-[#5c4037] border border-gray-200 flex items-center justify-center hover:bg-gray-100"
-                        >
-                          +
-                        </button>
+                    <label className="text-xs text-gray-450 font-bold block mb-2">티켓 예매 매수 및 좌석 직접 선택</label>
+                    
+                    <div className="flex justify-between items-center bg-gray-50 px-4 py-3 rounded-lg border border-gray-150 mb-3 text-xs">
+                      <span className="text-gray-650 font-semibold">전석 균일 좌석가: <span className="text-brand-primary">45,000원</span></span>
+                      <span className="text-brand-primary bg-brand-primary/10 px-3 py-1 rounded-md font-bold text-[11px]">
+                        선택된 매수: <span className="font-extrabold">{selectedSeats.length}석</span>
+                      </span>
+                    </div>
+
+                    {/* Dynamic Limit Warnings */}
+                    {seatWarning && (
+                      <div className="p-3 bg-red-50 text-red-600 border border-red-100 rounded-lg text-xs font-medium mb-3 flex items-center gap-2 animate-bounce">
+                        <span>⚠️</span>
+                        <span>{seatWarning}</span>
+                      </div>
+                    )}
+
+                    {/* Integrated Theater Seating Layout */}
+                    <div className="p-4 bg-gray-900 rounded-xl flex flex-col items-center shadow-lg text-white mb-3">
+                      {/* Interactive Stage Light Glow */}
+                      <div className="w-11/12 h-1 bg-brand-orange/60 rounded-full blur-[1px] mb-1" />
+                      <div className="w-full bg-gradient-to-b from-brand-orange/15 to-transparent text-white text-[10px] font-bold py-1 rounded-md text-center tracking-widest uppercase mb-6 font-headline">
+                        STAGE (무대 정면)
+                      </div>
+
+                      {/* Seating Arrangement Map */}
+                      <div className="flex flex-col gap-1.5 w-full items-center overflow-x-auto py-2">
+                        {['A', 'B', 'C', 'D', 'E'].map(row => (
+                          <div key={row} className="flex items-center gap-1.5">
+                            {/* Row Label Label */}
+                            <span className="w-4 text-[10px] font-bold text-gray-500 text-center mr-1 font-mono">{row}</span>
+                            
+                            {/* Columns 1~10 */}
+                            {Array.from({ length: 10 }).map((_, idx) => {
+                              const colNum = idx + 1;
+                              const seatName = `${row}열 ${colNum}번`;
+                              const isSelected = selectedSeats.includes(seatName);
+                              const isSoldIndex = isSoldOut(row, colNum);
+
+                              return (
+                                <button
+                                  key={seatName}
+                                  type="button"
+                                  disabled={isSoldIndex}
+                                  onClick={() => handleSeatClick(row, colNum)}
+                                  className={`w-6.5 h-6.5 md:w-8 md:h-8 rounded-md flex items-center justify-center text-[9px] md:text-xs font-semibold font-mono transition-all cursor-pointer relative
+                                    ${isSoldIndex 
+                                      ? 'bg-gray-800 text-gray-600 border border-gray-800 cursor-not-allowed' 
+                                      : isSelected
+                                        ? 'bg-brand-orange text-white ring-2 ring-brand-orange/40 font-bold border border-brand-orange'
+                                        : 'bg-gray-700 text-white border border-gray-600 hover:border-brand-orange/50 hover:bg-gray-650'
+                                    }
+                                  `}
+                                >
+                                  {isSoldIndex ? '×' : colNum}
+                                </button>
+                              );
+                            })}
+
+                            <span className="w-4 text-[10px] font-bold text-gray-500 text-center ml-1 font-mono">{row}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Seating Arrangement Legends */}
+                      <div className="flex gap-4 mt-6 text-[10px] font-medium text-gray-400 border-t border-white/10 pt-3 w-full justify-center">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-3 h-3 bg-gray-700 border border-gray-600 rounded-sm inline-block"></span>
+                          <span>선택 가능</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-3 h-3 bg-brand-orange border border-brand-orange rounded-sm inline-block"></span>
+                          <span>선택한 좌석</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-3 h-3 bg-gray-800 border border-gray-800 text-gray-600 rounded-sm inline-block text-center font-bold text-[8px] leading-3">×</span>
+                          <span>판매 완료</span>
+                        </div>
                       </div>
                     </div>
-                    <span className="text-[10px] text-gray-400 mt-1 block">※ 1인 최대 4매 예매 가능합니다.</span>
                   </div>
 
                   <div>
-                    <label className="text-xs text-gray-400 font-bold block mb-2">선택완료 자동 배정 좌석</label>
-                    <div className="flex gap-2 flex-wrap">
-                      {selectedSeats.map(seat => (
-                        <span key={seat} className="bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-                          <Check size={12} />
-                          {seat}
-                        </span>
-                      ))}
+                    <label className="text-xs text-gray-400 font-bold block mb-1">선택하신 좌석</label>
+                    <div className="flex gap-1.5 flex-wrap min-h-8">
+                      {selectedSeats.length > 0 ? (
+                        selectedSeats.map(seat => (
+                          <span key={seat} className="bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold px-3 py-1 rounded-lg flex items-center gap-1 px-2.5 py-1.5 shadow-sm">
+                            <Check size={12} className="stroke-[3]" />
+                            {seat}
+                          </span>
+                        ))
+                      ) : (
+                        <p className="text-xs text-gray-450 italic mt-1 pb-1">배치도에서 관람 희망 좌석을 1석 이상 골라 주십시오. (인당 최대 4석)</p>
+                      )}
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">※ 극단 연극열전 통합 예매 시뮬레이터 시스템에 의해 최적의 골든 라이팅 구역 좌석이 임시 선점되었습니다.</p>
                   </div>
 
-                  <div className="mt-8 pt-4 border-t border-gray-100 flex justify-between items-center bg-gray-50/50 p-4 rounded-xl">
+                  <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center bg-gray-50/50 p-4 rounded-xl">
                     <div>
-                      <span className="text-xs text-gray-400 block">총 예매 금액</span>
-                      <span className="text-xl font-headline font-semibold text-brand-orange">
-                        {(ticketCount * 45000).toLocaleString()}원
+                      <span className="text-xs text-gray-400 block font-semibold">총 예매 금액</span>
+                      <span className="text-xl font-headline font-bold text-brand-orange">
+                        {(selectedSeats.length * 45000).toLocaleString()}원
                       </span>
                     </div>
-                    <span className="text-xs bg-gray-200 text-gray-600 px-2.5 py-1 rounded font-bold">현장 수령</span>
+                    <span className="text-xs bg-gray-200 text-gray-600 px-2.5 py-1.5 rounded font-bold">현장 수령</span>
                   </div>
 
                   <div className="flex gap-3 mt-4">
                     <button
                       onClick={() => setBookingStep(1)}
-                      className="w-1/3 border border-gray-200 text-gray-600 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors text-center"
+                      className="w-1/3 border border-gray-200 text-gray-600 py-4 rounded-xl font-bold bg-white hover:bg-gray-50 transition-colors text-center text-sm cursor-pointer"
                     >
                       이전으로
                     </button>
                     <button
                       onClick={handleNextBookingStep}
-                      className="flex-1 bg-brand-primary text-white py-4 rounded-xl font-bold hover:opacity-95 transition-opacity text-center flex items-center justify-center gap-2"
+                      disabled={selectedSeats.length === 0}
+                      className="flex-1 bg-brand-primary text-white py-4 rounded-xl font-bold hover:opacity-95 transition-opacity text-center flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed text-sm cursor-pointer shadow-md shadow-brand-primary/10"
                     >
                       <span>결제 및 예매 완료</span>
                       <Sparkles size={16} />
