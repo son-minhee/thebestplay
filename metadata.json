@@ -1,0 +1,6 @@
+{
+  "name": "The Best Plays",
+  "description": "연극열전을 소개하고, 현재 상영작, 예정작 및 지난 공연들의 아카이브를 살펴볼 수 있는 연극 홍보 및 예매 사이트입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
