@@ -4,6 +4,11 @@
  */
 
 import { useState } from 'react';
+import imgNof from '../assets/.aistudio/nof.jpg';
+import imgS10 from '../assets/.aistudio/s10.png';
+import imgS9 from '../assets/.aistudio/s9.png';
+import imgS8 from '../assets/.aistudio/s8.png';
+import imgS7 from '../assets/.aistudio/s7.png';
 import { 
   Menu, 
   Search, 
@@ -99,7 +104,7 @@ export default function App() {
       title: '네이처 오브 포겟팅 (The Nature of Forgetting)',
       period: '2026.09 (예정)',
       venue: '세종문화회관 S씨어터',
-      image: '/assets/.aistudio/nof.jpg',
+      image: imgNof,
       badge: 'COMING SOON',
       badgeColor: 'bg-brand-orange',
       bannerDesc: '세종문화회관 S씨어터에서 만나는 감동적인 무대. 기억의 조각을 맞추는 특별한 여정.',
@@ -139,7 +144,7 @@ export default function App() {
       id: 'archive_10',
       title: '연극열전10',
       period: '2024.3 - 2026.11',
-      image: '/assets/.aistudio/연보10.png',
+      image: imgS10,
       description: '연극열전 극단의 열 번째 명작 퍼레이드 시즌. "엠.버터플라이", "렁스", "마우스피스", "웃음의 대학" 등 한층 깊어진 예술적 완성도와 대중성을 겸비한 웰메이드 정기 라인업을 선보이며 관객들의 압도적인 찬사를 받았습니다.',
       cast: ['모든 참여 연출 및 출연 배우 일동']
     },
@@ -147,7 +152,7 @@ export default function App() {
       id: 'archive_9',
       title: '연극열전9',
       period: '2022.4 - 2023.2',
-      image: '/assets/.aistudio/연보9.png',
+      image: imgS9,
       description: '아홉 번째로 마주한 연극열전의 아름다운 라인업. 연극 "보이지 않는 손" 한국 초연을 포함하여 현대 사회의 여러 이면과 자본을 통렬히 풍자하고 삶과 죽음, 그리고 관계에 관한 독특한 희비극을 전달하였습니다.',
       cast: ['이강우', '황상민', '곽시형', '김진아']
     },
@@ -155,7 +160,7 @@ export default function App() {
       id: 'archive_8',
       title: '연극열전8',
       period: '2020.5 - 2021.2',
-      image: '/assets/.aistudio/연보8.png',
+      image: imgS8,
       description: '어려운 시기 힘을 보태어준 깊은 감동의 시즌. "렁스" 국내 역사적인 초연, 연극 "아들" 등의 심리 드라마를 세밀하게 직진하며 관객들에게 정서적인 유대감과 위로, 사색을 전하는 소중한 발자취가 되었습니다.',
       cast: ['김석우', '민나래', '오정헌', '서지현']
     },
@@ -163,7 +168,7 @@ export default function App() {
       id: 'archive_7',
       title: '연극열전7',
       period: '2018.4 - 2019.2',
-      image: '/assets/.aistudio/연보7.png',
+      image: imgS7,
       description: '연극열전 일곱 번째 정기 컬렉션. 사회 부조리의 고발과 인간 내면의 솔직한 감정들을 심층적으로 투영해낸 "킬롤로지", "신인류의 백분토론" 등 지적이면서도 격정적인 작품들로 뜨겁게 소통한 시즌입니다.',
       cast: ['최정원', '강민호', '이지영', '박연우']
     }
