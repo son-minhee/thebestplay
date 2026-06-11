@@ -99,7 +99,7 @@ export default function App() {
       title: '네이처 오브 포겟팅 (The Nature of Forgetting)',
       period: '2026.09 (예정)',
       venue: '세종문화회관 S씨어터',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLtsM1cVKLOD27O7CoumpGneFb2dA9yWQLiuNQwLE5oC3cpMwIgyrufhRVbsAYc7UZ6tFQNcM_H4L902n8j7GKOWbhAp2sIFUED61zIRHc6YECHCY33AvMV8GQiA8xmtW40n1Tf5RA8Z-wJmCTXzFxdACagzUbzWBK7ch9PbPJS5yIZ7fVPku6wfuHPkx6USZ3wIolEy2YOeJHsAhrOxjoG0pbtdNh6RDwm98cKK05Ky-ekB2GfozKBfVRI=s0',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202203/NOFposter.jpg',
       badge: 'COMING SOON',
       badgeColor: 'bg-brand-orange',
       bannerDesc: '세종문화회관 S씨어터에서 만나는 감동적인 무대. 기억의 조각을 맞추는 특별한 여정.',
@@ -112,7 +112,7 @@ export default function App() {
       title: '마우스피스 (Mouthpiece)',
       period: '2026.4.4 - 6.21',
       venue: '예스24아트원 2관',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGVAoOBE-mAvQRkaoRoHfaRAicH_sKh_TXdLpnctgjqXaZoul2JmXe6r6yr0j7jgHfQX-L2wuj7tQJuSmtFrq_6G9GB7Pq7bHSD3g8WMVQJ3hd7dOvzncd47TYTdIZ7nrnTXcguIaC4f_UE0ads41XAo1T3cE6vdwEuv5RU9d5qN4y6XkGVZ00XG556_x-4Tu2-XN18zhhF6rUh9NELFrf3GXglmVz3z4dfcznha34rUSwCtINIHYCTQ3u7yP32AOu7X8yejnEB9L-vQ',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202601/(0119-out)2026-마우스피스(main).jpg',
       badge: 'NOW',
       badgeColor: 'bg-brand-orange',
       synopsis: '슬럼프에 빠진 중년의 작가 리비와 그림 재능이 있지만 현실에 짓눌려 방황하는 17세 소년 데클란. 두 사람의 운명적인 조우를 통해 예술이 타인의 고통을 다루는 방식, 창작과 재현의 윤리적 딜레마에 대해 숨 막히도록 날카롭고 격렬한 물음을 던집니다.',
@@ -124,7 +124,7 @@ export default function App() {
       title: '렁스 (Lungs)',
       period: '2026.05.23 - 08.02',
       venue: '충무아트센터 중극장 블랙',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDdAtNBoT4ZmfnuDrDHH9kws-XzHaC0eiYFCJoB6PwXaT8TlMIEpSQS1_juV1rWVRJJ7LpeeugRXBRRs3geI6SF1vRZyIq1RompHAwMu7t2NDMec5M3S9kNjKP6pIv3nhBueoeCH45tNB_XLWiLSzvBBHfx_g720xC_QDiOo_YzzLCsY3j3lkjtbUaCW6ANUwj6q-lEydCRHefTNhxVyuOpzpjnQWKGmykIddZ6cSGRdvbRrkscguEi38LOGy4eUiFqAApjV3utS_cRAA',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202603/KakaoTalk_20260330_180339992.jpg',
       badge: 'NOW',
       badgeColor: 'bg-brand-orange',
       synopsis: '기후 위기, 환경 오염과 인구 포화 속에서 "과연 우리는 지구에 또 하나의 인간을 보태는 것이 좋은 일인가?" 라는 질문을 매개로 삼은 2인극. 배경음악이나 무대 장치, 의상 변화 없이 오직 두 배우의 거침없는 밀도 높은 롱테이크 독백과 대화로 일생의 모든 사랑과 슬픔을 압축하여 펼쳐 보입니다.',
@@ -139,7 +139,7 @@ export default function App() {
       id: 'archive_10',
       title: '연극열전10',
       period: '2024.3 - 2026.11',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLvWnMhuvSySrWO7Bfufua3rudk82dKhE8cADNQ0Zgb83oEB9k85I1KLcVeTGFAiD3PZnkkKygV8dHC4nZ-y2PPLz-OS_Y5c-sc_zLchtmnKkDSp7ovPARj2zeIUNBwuOX_HHV45-oGw1ddmIeoVWRT8SrgDVSdWt_EquMLtanchDjgWpixNeJWm96pVjgCRDK4kRGFk03hvKpA0j6eaXzzwifhWRahWvawyOobgTk039zapQvV8Dr01zA',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202401/2024_370-520_fin______.jpg',
       description: '연극열전 극단의 열 번째 명작 퍼레이드 시즌. "엠.버터플라이", "렁스", "마우스피스", "웃음의 대학" 등 한층 깊어진 예술적 완성도와 대중성을 겸비한 웰메이드 정기 라인업을 선보이며 관객들의 압도적인 찬사를 받았습니다.',
       cast: ['모든 참여 연출 및 출연 배우 일동']
     },
@@ -147,7 +147,7 @@ export default function App() {
       id: 'archive_9',
       title: '연극열전9',
       period: '2022.4 - 2023.2',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLt8y6GWCGz8-aoE0GlxP5eHPZ9Sy15TCE1Q_FGVkwwOkeq2Mry-N5fVONPGaXLICqWPCktG059uDEOVqys6R5uT_DOq5L3MmFY-bkqpkzh9IegYoBlqbr10_Yzta-ZHmMPw7jXv9EVmMP9ipoxtETwAr-F6Dx07xnLjhhKQZi3wYrZpkqcRY-Upd7ZgvWTjEfZ0Chob3-wrrRkJLPIr6UTi15M7VqSTgIUwLPm4Uj8r47a5zOYs7qYv7Co',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202203/NOFposter.jpg',
       description: '아홉 번째로 마주한 연극열전의 아름다운 라인업. 연극 "보이지 않는 손" 한국 초연을 포함하여 현대 사회의 여러 이면과 자본을 통렬히 풍자하고 삶과 죽음, 그리고 관계에 관한 독특한 희비극을 전달하였습니다.',
       cast: ['이강우', '황상민', '곽시형', '김진아']
     },
@@ -155,7 +155,7 @@ export default function App() {
       id: 'archive_8',
       title: '연극열전8',
       period: '2020.5 - 2021.2',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLtHwU-VNuHodbP_rcgDREfZP4Afoy891OU8-xS0YhuL5luV_R_oX7DYFKZZkgdpEfw8ftN5I6m_emZ3vXJkeU3BCg1LzXVB5oz1X3UnhaCx3vO8Na9Zx4Bxzzs4XOa8X7ZqO9jP2rB3PeFzBbVuCbfX3BxQ-vWPwVBYT3mCa1xRQw0X69Zg4uob72nH3I9YcXqvASeFt-ueH8OVO9m2LJLGRYiuesB-ezqnlyKjtl17w9i48nn16jSRg-Y',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202003/Lungs_poster_1.jpg',
       description: '어려운 시기 힘을 보태어준 깊은 감동의 시즌. "렁스" 국내 역사적인 초연, 연극 "아들" 등의 심리 드라마를 세밀하게 직진하며 관객들에게 정서적인 유대감과 위로, 사색을 전하는 소중한 발자취가 되었습니다.',
       cast: ['김석우', '민나래', '오정헌', '서지현']
     },
@@ -163,7 +163,7 @@ export default function App() {
       id: 'archive_7',
       title: '연극열전7',
       period: '2018.4 - 2019.2',
-      image: 'https://lh3.googleusercontent.com/aida/AP1WRLs7SZzEJ_cJGqEMgr2e__zmFAQEUmojMAp0MP71nrqLwcocn4AiSnrsFsl2KwyTrd6m84IYc2T_2ThOo9K8hjmL7mqLEZSkcctrU8EhXpml5dCIzZjMQc7UDHifjz4bAozm9zMMmJFKN_3ykM7X13VBa9IOsdK2Zx7yzIh3a04N5O7oGYbP3UrMp8n1OV0DPGDWlk8iAjdjZWItldJzaCqoAZJPSSEDH5TvzvackjiB8xgKYljYXVssNYY',
+      image: 'https://www.thebestplay.co.kr/Down/Perf/202407/killology_1.jpg',
       description: '연극열전 일곱 번째 정기 컬렉션. 사회 부조리의 고발과 인간 내면의 솔직한 감정들을 심층적으로 투영해낸 "킬롤로지", "신인류의 백분토론" 등 지적이면서도 격정적인 작품들로 뜨겁게 소통한 시즌입니다.',
       cast: ['최정원', '강민호', '이지영', '박연우']
     }
@@ -469,7 +469,7 @@ export default function App() {
           className="font-headline text-headline-md font-bold tracking-tighter text-brand-primary cursor-pointer absolute left-1/2 -translate-x-1/2 flex items-center justify-center"
         >
           <img 
-            src="https://lh3.googleusercontent.com/aida/AP1WRLsIxcPjlhlkDlWoWj7hLx0HnEG61nTmeL7zeBE9PbXemt3D9x6V8otaTIU46gbRR4Tx7f5_suzPlkQ__HBG2FpYcXmPAtBXbyDhNHTW35QMr1O2f1_h8rWzznzSeiFjTra3lAYvtalxyeKO7LRuRorrYkxL_v4aGdWpT3i4lO7SUtP_GDptuGlSVQEOKK8YRD0bxyyxdfHO2LSq8u0CVQVSMXX9P09-T1hePqGn-X-fClzaKPgpIlmrpok" 
+            src="https://www.thebestplay.co.kr/images/logo.png" 
             alt="Best Play Logo" 
             referrerPolicy="no-referrer"
             className="h-8 md:h-10 w-auto object-contain"
@@ -1041,7 +1041,7 @@ export default function App() {
         <img 
           alt="Best Play Footer Logo" 
           className="h-8 opacity-50 grayscale mix-blend-multiply dark:mix-blend-screen mt-4 cursor-pointer" 
-          src="https://lh3.googleusercontent.com/aida/AP1WRLsIxcPjlhlkDlWoWj7hLx0HnEG61nTmeL7zeBE9PbXemt3D9x6V8otaTIU46gbRR4Tx7f5_suzPlkQ__HBG2FpYcXmPAtBXbyDhNHTW35QMr1O2f1_h8rWzznzSeiFjTra3lAYvtalxyeKO7LRuRorrYkxL_v4aGdWpT3i4lO7SUtP_GDptuGlSVQEOKK8YRD0bxyyxdfHO2LSq8u0CVQVSMXX9P09-T1hePqGn-X-fClzaKPgpIlmrpok"
+          src="https://www.thebestplay.co.kr/images/logo.png"
           referrerPolicy="no-referrer"
           onClick={() => setActiveTab('home')}
         />
